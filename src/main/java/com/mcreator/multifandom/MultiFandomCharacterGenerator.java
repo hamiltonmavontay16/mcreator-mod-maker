@@ -57,6 +57,30 @@ public class MultiFandomCharacterGenerator {
         return names;
     }
 
+    /**
+     * Returns a sorted roster of base character names for the selected fandom.
+     * Use "ANY" to get all known names across all fandom pools.
+     */
+    public List<String> getCharacterRoster(String fandomSelection) {
+        String normalized = normalizeFandom(fandomSelection);
+        List<String> names = new ArrayList<>();
+
+        if (normalized.equals("ANY")) {
+            for (List<CharacterSeed> seeds : seedsByFandom.values()) {
+                for (CharacterSeed seed : seeds) {
+                    names.addAll(seed.nameRoots());
+                }
+            }
+        } else {
+            String canonical = validateAndResolveFandom(normalized);
+            for (CharacterSeed seed : seedsByFandom.get(canonical)) {
+                names.addAll(seed.nameRoots());
+            }
+        }
+
+        return names.stream().distinct().sorted().toList();
+    }
+
     private String normalizeFandom(String fandomSelection) {
         if (fandomSelection == null || fandomSelection.isBlank()) {
             return "ANY";
@@ -226,6 +250,25 @@ public class MultiFandomCharacterGenerator {
             )
         ));
 
+        data.put("MLP_EQUESTRIA_GIRLS", List.of(
+            CharacterSeed.of(
+                List.of("Sunset Shimmer", "Twilight Sparkle", "Rainbow Dash", "Pinkie Pie", "Rarity"),
+                List.of(" of Canterlot High", " (EQG)", " the Guitarist", " the Stylist", " the Wondercolt"),
+                List.of("Band Frontliner", "Magic Investigations Lead", "Friendship Problem Solver"),
+                List.of("confident", "loyal", "creative", "empathetic"),
+                List.of("Geode Pendant", "Battle of the Bands Guitar", "Yearbook of Harmony"),
+                List.of("We can solve this together.", "Friendship still wins in this world.")
+            ),
+            CharacterSeed.of(
+                List.of("Applejack", "Fluttershy", "Spike", "Sci-Twi", "Starlight Glimmer"),
+                List.of(" of CHS", " the Planner", " the Drummer", " the Counselor", " the Strategist"),
+                List.of("Camp Everfree Scout", "Dance Magic Coordinator", "Mirror Portal Specialist"),
+                List.of("grounded", "gentle", "determined", "supportive"),
+                List.of("Friendship Journal", "Campfire Geode", "Backstage Pass"),
+                List.of("No one gets left out of the team.", "Let's turn this into a teachable moment.")
+            )
+        ));
+
         data.put("KIRBY", List.of(
             CharacterSeed.of(
                 List.of("Kirby", "Meta", "Bandana", "Adeleine", "Ribbon"),
@@ -334,6 +377,10 @@ public class MultiFandomCharacterGenerator {
         aliases.put("MY LITTLE PONY", "MLP");
         aliases.put("FRIENDSHIP_IS_MAGIC", "MLP");
         aliases.put("FRIENDSHIP IS MAGIC", "MLP");
+        aliases.put("MLP EQUESTRIA GIRLS", "MLP_EQUESTRIA_GIRLS");
+        aliases.put("EQUESTRIA GIRLS", "MLP_EQUESTRIA_GIRLS");
+        aliases.put("MLP_EQG", "MLP_EQUESTRIA_GIRLS");
+        aliases.put("MY LITTLE PONY EQUESTRIA GIRLS", "MLP_EQUESTRIA_GIRLS");
         aliases.put("LALALOOPSY_ALL_MEDIA", "LALALOOPSY");
         aliases.put("LALALOOPSY (ALL MEDIA)", "LALALOOPSY");
         aliases.put("KIRBY_ALL_GAMES", "KIRBY");

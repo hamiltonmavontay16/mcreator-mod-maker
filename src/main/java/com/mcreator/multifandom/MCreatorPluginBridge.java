@@ -24,4 +24,11 @@ public final class MCreatorPluginBridge {
     public static List<String> supportedFandoms() {
         return GENERATOR.getSupportedFandoms();
     }
+
+    /**
+     * Returns sorted base character names for a fandom roster ("ANY" for all fandoms).
+     */
+    public static List<String> characterRoster(String fandom) {
+        return GENERATOR.getCharacterRoster(fandom);
+    }
 }
