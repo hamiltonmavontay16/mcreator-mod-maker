@@ -1,0 +1,14 @@
+{
+  "id": "multifandom_character_generator",
+  "name": "MultiFandom Character Generator",
+  "description": "Adds a random Any-Fandom character generator for MCreator 2026.1 projects.",
+  "author": "mcreator-mod-maker",
+  "version": "1.0.0",
+  "mc_version": "2026.1",
+  "entrypoint": "com.mcreator.multifandom.MCreatorPluginBridge",
+  "features": [
+    "random-character-generation",
+    "fandom-selection",
+    "procedure-bridge"
+  ]
+}
